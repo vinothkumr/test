@@ -1,0 +1,15 @@
+apply plugin : 'java'
+ apply plugin: 'war'
+
+task run(dependsOn: 'war', type:Exec) {
+    workingDir "C:/Program Files/glassfish-4.1/bin"
+
+    if (System.properties['os.name'].toLowerCase().contains('windows')) {
+        commandLine 'cmd', '/c', 'asadmin.bat'
+    } else {
+        commandLine "./asadmin"
+    }
+
+    args "deploy", "--force=true", "${war.archivePath}"
+}
+
